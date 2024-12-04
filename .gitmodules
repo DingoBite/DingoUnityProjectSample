@@ -1,0 +1,12 @@
+[submodule "Assets/UnityBindVariables"]
+	path = Assets/UnityBindVariables
+	url = https://github.com/DingoBite/UnityBindVariables
+[submodule "Assets/AppStructure"]
+	path = Assets/AppStructure
+	url = https://github.com/DingoBite/AppStructure
+[submodule "Assets/DingoUnityExtensions"]
+	path = Assets/DingoUnityExtensions
+	url = https://github.com/DingoBite/DingoUnityExtensions
+[submodule "Assets/DingoUnityProjectMastering"]
+	path = Assets/DingoUnityProjectMastering
+	url = https://github.com/DingoBite/DingoUnityProjectMastering
