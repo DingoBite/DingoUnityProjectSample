@@ -2,8 +2,8 @@
 {
     public enum AppCoreState
     {
-        None,
-        Bootstrap,
-        Login,
+        None = 0,
+        Bootstrap = 1,
+        Start = 2,
     }
 }

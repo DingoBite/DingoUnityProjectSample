@@ -20,20 +20,22 @@ namespace ProjectAppStructure.Core.Model
             return Task.CompletedTask;
         }
     }
-
+    
     public class AppModelRoot : IDisposable
     {
-        private readonly AppStaticData _appStaticData;
+        public readonly AppStaticData AppStaticData;
 
         public readonly ExternalDependencies ExternalDependencies;
         public readonly AppCoreConfig AppCoreConfig;
+        public readonly AppViewModelConfig AppViewModelConfig;
 
         private readonly Dictionary<Type, AppModelBase> _appModelBases = new();
 
-        public AppModelRoot(AppCoreConfig appCoreConfig, ExternalDependencies externalDependencies)
+        public AppModelRoot(AppCoreConfig appCoreConfig, AppViewModelConfig appViewModelConfig, ExternalDependencies externalDependencies)
         {
             AppCoreConfig = appCoreConfig;
-            _appStaticData = new AppStaticData(appCoreConfig);
+            AppViewModelConfig = appViewModelConfig;
+            AppStaticData = new AppStaticData(appCoreConfig);
             ExternalDependencies = externalDependencies;
         }
 
@@ -78,7 +80,7 @@ namespace ProjectAppStructure.Core.Model
         {
             try
             {
-                await _appStaticData.InitializeAsync();
+                await AppStaticData.InitializeAsync();
             }
             catch (Exception e)
             {
@@ -91,7 +93,7 @@ namespace ProjectAppStructure.Core.Model
                 try
                 {
                     if (appModelBase is HardLinkAppModelBase hardLinkAppModelBase)
-                        await hardLinkAppModelBase.AfterAppStaticDataInitializeAsync(_appStaticData);
+                        await hardLinkAppModelBase.AfterAppStaticDataInitializeAsync(AppStaticData);
                 }
                 catch (Exception e)
                 {
@@ -103,7 +105,7 @@ namespace ProjectAppStructure.Core.Model
 
         public void Dispose()
         {
-            _appStaticData.Dispose();
+            AppStaticData.Dispose();
         }
     }
 }

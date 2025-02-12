@@ -6,12 +6,11 @@ using ProjectAppStructure.Core.Model;
 namespace ProjectAppStructure.Core.AppRootCore
 {
     public abstract class AppStateBehaviour : ImmediateAppStateView<AppCoreState, AppModelRoot, AppCoreConfig> { }
+    public abstract class AnimatableAppStateBehaviour : GenericAnimatableAppStateView<AppCoreState, AppModelRoot, AppCoreConfig> { }
     
     public abstract class AppStateElementBehaviour : StateViewElement<AppCoreState, AppModelRoot, AppCoreConfig>
     {
         public override Task EnableElementAsync(TransferInfo<AppCoreState> transferInfo) => Task.CompletedTask;
-        public override void OnStartScreenEnable() { }
-        public override Task DisableElementAsync(TransferInfo<AppCoreState> transferInfo) => Task.CompletedTask;
         public override void OnCompletelyDisable() { }
     }
 

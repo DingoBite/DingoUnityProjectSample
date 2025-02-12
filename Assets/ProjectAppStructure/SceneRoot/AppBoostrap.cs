@@ -18,8 +18,11 @@ namespace ProjectAppStructure.SceneRoot
     {
         [SerializeField] private AppBootstrapConfig _appBootstrapConfig;
         [SerializeField] private AppCoreConfig _appCoreConfig;
+        [SerializeField] private AppViewModelConfig _appViewConfig;
         [SerializeField] private AppController _appController;
 
+        public AppCoreConfig AppCoreConfig => _appCoreConfig;
+        
         protected IEnumerator LoadConfigExternal(Action<AppCoreConfig> callback)
         {
             callback?.Invoke(JsonClone.CloneSerializable(_appCoreConfig));
@@ -31,7 +34,7 @@ namespace ProjectAppStructure.SceneRoot
             if (_appBootstrapConfig.ExternalAppCoreConfig)
                 yield return LoadConfigExternal(c => _appCoreConfig = c);
             _appController.PrepareController();
-            yield return _appController.InitializeControllerAsync(_appCoreConfig, callback).ToCoroutine();
+            yield return _appController.InitializeControllerAsync(_appCoreConfig, _appViewConfig, callback).ToCoroutine();
         }
 
         protected override IEnumerator StartBootstrapProcess(Action<bool> callback)

@@ -1,6 +1,5 @@
 ﻿using System;
 using ProjectAppStructure.Core.GeneralUtils;
-using ProjectAppStructure.Core.Model;
 using UnityEngine;
 
 namespace ProjectAppStructure.SceneRoot

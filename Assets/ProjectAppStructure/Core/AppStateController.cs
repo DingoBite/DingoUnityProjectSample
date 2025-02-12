@@ -17,8 +17,9 @@ namespace ProjectAppStructure.Core
         [SerializeField] private AppStateElementsRoot _appStateElementsRoot;
 
         [SerializeField] private AppCoreState _bootstrapState = AppCoreState.Bootstrap;
-        [SerializeField] private AppCoreState _startState = AppCoreState.Login;
-
+        [SerializeField] private AppCoreState _startState = AppCoreState.Start;
+        [SerializeField] private bool _autoGoToStart = true;
+            
         public IAppStructurePart<AppModelRoot, AppCoreConfig> AppViewRoot => _appStateElementsRoot;
 
         public void Initialize(AppCoreConfig config)
@@ -34,6 +35,8 @@ namespace ProjectAppStructure.Core
 
         public async Task GoToStart()
         {
+            if (!_autoGoToStart)
+                return;
             var t = _appCoreStateMachine.GoToState(_startState);
             await _appStateElementsRoot.ApplyTransferAsync(t);
         }

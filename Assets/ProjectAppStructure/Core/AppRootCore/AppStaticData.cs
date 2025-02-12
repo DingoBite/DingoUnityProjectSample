@@ -11,14 +11,14 @@ namespace ProjectAppStructure.Core.AppRootCore
         {
             _config = config;
         }
-
-        public async Task InitializeAsync()
-        {
-            
-        }
         
         public void Dispose()
         {
+        }
+
+        public Task InitializeAsync()
+        {
+            return Task.CompletedTask;
         }
     }
 }
