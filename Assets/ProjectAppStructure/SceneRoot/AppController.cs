@@ -76,17 +76,15 @@ namespace ProjectAppStructure.SceneRoot
                 _externalModelDependElements.Dispose();
         }
 
-        protected override void OnDestroy()
+        protected void OnDestroy()
         {
-            base.OnDestroy();
 #if UNITY_EDITOR
             OnApplicationQuit();
 #endif
         }
 
-        protected override void OnApplicationQuit()
+        protected void OnApplicationQuit()
         {
-            base.OnApplicationQuit();
             Dispose();
         }
     }
