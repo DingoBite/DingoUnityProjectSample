@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using ProjectAppStructure.Core.AppRootCore;
+using AppStructure.Utils;
 using ProjectAppStructure.Core.Model;
 using UnityEngine;
 
@@ -22,28 +21,17 @@ namespace ProjectAppStructure.Core.ViewModel
         protected void LogException(Exception exception) => ExternalDependencies.LogDependencies.UnityLogWrap(() => Debug.LogException(exception));
     }
     
-    public class AppViewModelRoot : AppModelBase
+    public class AppViewModelRoot : RootByGenericTypes<AppViewModelBase>
     {
-        private readonly Dictionary<Type, AppViewModelBase> _appViewModelBases = new();
-        
-        public void RegisterModel<T>(T model) where T : AppViewModelBase
-        {
-            try
-            {
-                _appViewModelBases.Add(typeof(T), model);
-            }
-            catch (Exception e)
-            {
-                Debug.LogException(e);
-            }
-        }
+    }
 
-        public T Model<T>() where T : AppViewModelBase
-        {
-            if (!_appViewModelBases.TryGetValue(typeof(T), out var modelBase))
-                return default;
+    public class AppViewModelRootContainer : AppModelBase
+    {
+        public readonly AppViewModelRoot Root;
 
-            return modelBase as T;
+        public AppViewModelRootContainer(AppViewModelRoot root)
+        {
+            Root = root;
         }
     }
 }

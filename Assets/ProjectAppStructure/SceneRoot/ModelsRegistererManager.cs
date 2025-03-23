@@ -17,7 +17,7 @@ namespace ProjectAppStructure.SceneRoot
         public async UniTask RegisterViewModelAsync(AppModelRoot appModelRoot)
         {
             var appViewModelRoot = new AppViewModelRoot();
-            appModelRoot.RegisterModel(appViewModelRoot);
+            appModelRoot.RegisterModel(new AppViewModelRootContainer(appViewModelRoot));
             await AddictiveRegisterViewModelsAsync(appViewModelRoot);
         }
 

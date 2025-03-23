@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using AppStructure.Utils;
-using ProjectAppStructure.Core.AppRootCore;
 using UnityEngine;
 
 namespace ProjectAppStructure.Core.Model
