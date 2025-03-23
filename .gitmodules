@@ -10,3 +10,6 @@
 [submodule "Assets/DingoUnityProjectMastering"]
 	path = Assets/DingoUnityProjectMastering
 	url = https://github.com/DingoBite/DingoUnityProjectMastering
+[submodule "Assets/DingoProjectAppStructure"]
+	path = Assets/DingoProjectAppStructure
+	url = https://github.com/DingoBite/DingoProjectAppStructure
