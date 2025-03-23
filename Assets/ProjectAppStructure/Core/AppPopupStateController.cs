@@ -8,7 +8,7 @@ namespace ProjectAppStructure.Core
 {
     public interface IAppPopupController
     {
-        public Task OpenAsync(AppPopup popup);
+        public Task OpenAsync(string popup);
         public Task CloseAsync();
     }
     
@@ -17,9 +17,9 @@ namespace ProjectAppStructure.Core
         [SerializeField] private AppPopupStateMachine _appPopupStateMachine;
         [SerializeField] private AppPopupViewRoot _appPopupViewRoot;
 
-        public IAppStructurePart<AppModelRoot, AppCoreConfig> AppPopupViewRoot => _appPopupViewRoot;
+        public IAppStructurePart<AppModelRoot> AppPopupViewRoot => _appPopupViewRoot;
             
-        public async Task OpenAsync(AppPopup popup)
+        public async Task OpenAsync(string popup)
         {
             var transferInfo = _appPopupStateMachine.OpenState(popup);
             await _appPopupViewRoot.ApplyTransferAsync(transferInfo);

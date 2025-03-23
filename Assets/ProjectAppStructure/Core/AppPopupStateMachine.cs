@@ -2,8 +2,8 @@ using AppStructure.StateMachines;
 
 namespace ProjectAppStructure.Core
 {
-    public class AppPopupStateMachine : OpenCloseStateMachine<AppPopup>
+    public class AppPopupStateMachine : OpenCloseStateMachine<string>
     {
-        protected override AppPopup NoneState => AppPopup.None;
+        protected override string NoneState => "";
     }
 }

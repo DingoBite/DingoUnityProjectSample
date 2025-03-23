@@ -1,31 +1,35 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using AppStructure.BaseElements;
+using NaughtyAttributes;
 using ProjectAppStructure.Core.AppRootCore;
 using ProjectAppStructure.Core.Model;
 using UnityEngine;
 
 namespace ProjectAppStructure.Core
 {
-    public interface IAppStateController
-    {
-        public Task ForceGoToStateAsync(AppCoreState appState);
-    }
-    
-    public class AppStateController : MonoBehaviour, IAppStateController
+    public class StateController : MonoBehaviour, IStateController
     {
         [SerializeField] private AppStateMachine _appCoreStateMachine;
         [SerializeField] private AppStateElementsRoot _appStateElementsRoot;
 
-        [SerializeField] private AppCoreState _bootstrapState = AppCoreState.Bootstrap;
-        [SerializeField] private AppCoreState _startState = AppCoreState.Start;
-        [SerializeField] private bool _autoGoToStart = true;
-            
-        public IAppStructurePart<AppModelRoot, AppCoreConfig> AppViewRoot => _appStateElementsRoot;
-
-        public void Initialize(AppCoreConfig config)
+        [SerializeField, Dropdown(nameof(States))] private string _bootstrapState;
+        [SerializeField, Dropdown(nameof(States))] private string _startState;
+        
+        public List<string> States
         {
-            _startState = config.StartState;
-        } 
+            get
+            {
+                var states = _appStateElementsRoot.States;
+                var list = states.ToList();
+                if (list.Count == 0)
+                    list.Add("__EMPTY__");
+                return list;
+            }
+        }
+
+        public IAppStructurePart<AppModelRoot> AppViewRoot => _appStateElementsRoot;
         
         public async Task GoToBootstrap()
         {
@@ -35,13 +39,11 @@ namespace ProjectAppStructure.Core
 
         public async Task GoToStart()
         {
-            if (!_autoGoToStart)
-                return;
             var t = _appCoreStateMachine.GoToState(_startState);
             await _appStateElementsRoot.ApplyTransferAsync(t);
         }
 
-        public async Task ForceGoToStateAsync(AppCoreState appState)
+        public async Task GoToAsync(string appState)
         {
             var t = _appCoreStateMachine.GoToState(appState);
             await _appStateElementsRoot.ApplyTransferAsync(t);

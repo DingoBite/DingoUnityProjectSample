@@ -3,5 +3,5 @@ using ProjectAppStructure.Core.Model;
 
 namespace ProjectAppStructure.Core.AppRootCore
 {
-    public class AppStateElementsRoot : AppMainViewsRoot<string, AppModelRoot> { }
+    public class AppLockViewRoot : AppMainViewsRoot<string, AppModelRoot> { }
 }

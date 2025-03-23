@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using AppStructure;
 using AppStructure.BaseElements;
 using DingoUnityExtensions.Extensions;
 using DingoUnityExtensions.UnityViewProviders.Core;
@@ -10,7 +8,7 @@ using UnityEngine;
 
 namespace ProjectAppStructure.Core.AppRootCore
 {
-    public abstract class PopupView : GenericAnimatableAppStateView<AppPopup, AppModelRoot, AppCoreConfig>
+    public abstract class PopupRoot : GenericAnimatableAppStateRoot<string, AppModelRoot>
     {
         [SerializeField] private List<EventContainer> _closeButtons;
 
@@ -19,12 +17,11 @@ namespace ProjectAppStructure.Core.AppRootCore
             _closeButtons.ForEach(e => e.SafeSubscribe(CloseLast));
             SetDefaultValues();
         }
-        protected void CloseLast() => AppController.AppPopupController.CloseAsync();
+
+        private static void CloseLast() => G.Popup.CloseAsync();
     }
 
-    public abstract class PopupStateElementBehaviour : StateViewElement<AppPopup, AppModelRoot, AppCoreConfig>
+    public abstract class PopupStateElementBehaviour : StateViewElement<string, AppModelRoot>
     {
-        public override Task EnableElementAsync(TransferInfo<AppPopup> transferInfo) => Task.CompletedTask;
-        public override void OnCompletelyDisable() { }
     }
 }

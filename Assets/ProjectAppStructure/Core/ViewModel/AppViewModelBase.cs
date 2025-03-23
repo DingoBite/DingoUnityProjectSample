@@ -15,7 +15,6 @@ namespace ProjectAppStructure.Core.ViewModel
             AppModelRoot = appModelRoot;
         }
 
-        protected AppCoreConfig AppCoreConfig => AppModelRoot.AppCoreConfig;
         protected ExternalDependencies ExternalDependencies => AppModelRoot.ExternalDependencies;
 
         protected void Log(string message) => ExternalDependencies.LogDependencies.UnityLogWrap(() => Debug.Log(message));

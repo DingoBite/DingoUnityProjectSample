@@ -2,7 +2,7 @@
 
 namespace ProjectAppStructure.GenericView.Popups
 {
-    public class InfoPopup : PopupView
+    public class InfoPopup : PopupRoot
     {
     }
 }

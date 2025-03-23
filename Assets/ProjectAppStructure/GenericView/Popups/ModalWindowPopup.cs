@@ -2,5 +2,5 @@
 
 namespace ProjectAppStructure.GenericView.Popups
 {
-    public class ModalWindowPopup : PopupView { }
+    public class ModalWindowPopup : PopupRoot { }
 }

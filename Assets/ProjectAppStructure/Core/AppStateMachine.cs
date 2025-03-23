@@ -5,11 +5,11 @@ using AppStructure.StateMachines;
 
 namespace ProjectAppStructure.Core
 {
-    public class AppStateMachine : GoBackSupportStateMachine<AppCoreState>
+    public class AppStateMachine : GoBackSupportStateMachine<string>
     {
-        protected override AppCoreState NoneState => AppCoreState.None;
+        protected override string NoneState => "";
 
-        protected override bool IsValidBack(IReadOnlyList<TransferInfo<AppCoreState>> history, out TransferInfo<AppCoreState> firstBack)
+        protected override bool IsValidBack(IReadOnlyList<TransferInfo<string>> history, out TransferInfo<string> firstBack)
         {
             firstBack = default;
             return false;

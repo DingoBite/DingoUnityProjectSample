@@ -3,24 +3,8 @@ using AppStructure.InputLocker;
 using DingoUnityExtensions.UnityViewProviders.Core;
 using UnityEngine;
 
-namespace ProjectAppStructure.Core
+namespace ProjectAppStructure.Core.AppLock
 {
-    [Flags]
-    public enum AppInputLockConfigure
-    {
-        None = 0,
-        ShowPreloader = 1 << 0,
-    }
-    
-    public struct AppInputLockMessage
-    {
-        public readonly AppInputLockConfigure ConfigureFlags;
-        public AppInputLockMessage(AppInputLockConfigure configureFlags)
-        {
-            ConfigureFlags = configureFlags;
-        }
-    }
-    
     public class AppInputLocker : AppInputLocker<AppInputLockMessage>
     {
         [SerializeField] private ValueContainer<AppInputLockMessage> _view;

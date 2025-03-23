@@ -10,16 +10,18 @@ namespace ProjectAppStructure.SceneRoot
         public async UniTask RegisterModelsAsync(AppModelRoot appModelRoot)
         {
             appModelRoot.RegisterModel(new AppPopupMessageModel());
-
+            await AddictiveRegisterModelsAsync(appModelRoot);
             await RegisterViewModelAsync(appModelRoot);
         }
 
-        public UniTask RegisterViewModelAsync(AppModelRoot appModelRoot)
+        public async UniTask RegisterViewModelAsync(AppModelRoot appModelRoot)
         {
             var appViewModelRoot = new AppViewModelRoot();
             appModelRoot.RegisterModel(appViewModelRoot);
-            
-            return UniTask.CompletedTask;
+            await AddictiveRegisterViewModelsAsync(appViewModelRoot);
         }
+
+        protected virtual UniTask AddictiveRegisterModelsAsync(AppModelRoot appModelRoot) => UniTask.CompletedTask;
+        protected virtual UniTask AddictiveRegisterViewModelsAsync(AppViewModelRoot appViewModelRoot) => UniTask.CompletedTask;
     }
 }

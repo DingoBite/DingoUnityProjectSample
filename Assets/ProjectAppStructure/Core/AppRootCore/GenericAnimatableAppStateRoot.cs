@@ -10,7 +10,7 @@ using UnityEngine.Events;
 
 namespace ProjectAppStructure.Core.AppRootCore
 {
-    public class GenericAnimatableAppStateView<TState, TAppModel, TAppConfig> : AppStateView<TState, TAppModel, TAppConfig> where TState : Enum
+    public class GenericAnimatableAppStateRoot<TState, TAppModel> : AppStateRoot<TState, TAppModel>
     {
         [Foldout("Events")]
         [SerializeField] private UnityEvent _startEnable;
@@ -29,27 +29,33 @@ namespace ProjectAppStructure.Core.AppRootCore
 
         private List<AnimatableBehaviour> AnimatableBehaviours => _animatableBehaviours;
 
-        protected override void StartEnable()
+        protected override void StartEnable(TransferInfo<TState> transferInfo)
         {
             _startEnable?.Invoke();
             if (Canvas != null)
                 Canvas.enabled = true;
-            base.StartEnable();
+            base.StartEnable(transferInfo);
+        }
+
+        protected override void StartDisable(TransferInfo<TState> transferInfo)
+        {
+            _startDisable?.Invoke();
+            base.StartDisable(transferInfo);
         }
 
         public override Task DisableOnTransferAsync(TransferInfo<TState> transferInfo)
         {
-            _startDisable?.Invoke();
+            StartDisable(transferInfo);
             if (AnimatableBehaviours.Count == 0)
-                DisableCompletely();
+                DisableCompletely(transferInfo);
             else
-                AnimatableBehaviours.ForEach(b => b.Disable(onComplete: DisableAllHandle));
+                AnimatableBehaviours.ForEach(b => b.Disable(onComplete: () => DisableAllHandle(transferInfo)));
             return base.DisableOnTransferAsync(transferInfo);
         }
 
-        protected override void DisableCompletely()
+        protected override void DisableCompletely(TransferInfo<TState> transferInfo)
         {
-            base.DisableCompletely();
+            base.DisableCompletely(transferInfo);
             if (Canvas != null)
                 Canvas.enabled = false;
             SetDefaultValues();
@@ -63,17 +69,17 @@ namespace ProjectAppStructure.Core.AppRootCore
         
         public override Task EnableOnTransferAsync(TransferInfo<TState> transferInfo)
         {
-            StartEnable();
+            StartEnable(transferInfo);
             AnimatableBehaviours.ForEach(b => b.Enable(onComplete:EnableFirstHandle));
             return base.EnableOnTransferAsync(transferInfo);
         }
 
-        private void DisableAllHandle()
+        private void DisableAllHandle(TransferInfo<TState> transferInfo)
         {
             if (AnimatableBehaviours.Any(animatableBehaviour => !animatableBehaviour.IsFullyDisabled))
                 return;
 
-            DisableCompletely();
+            DisableCompletely(transferInfo);
         }
 
         private void EnableFirstHandle()

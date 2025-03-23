@@ -5,35 +5,52 @@ using DingoUnityExtensions;
 using ProjectAppStructure.SceneRoot;
 using UnityEngine;
 
-namespace ProjectAppStructure.Core
+namespace ProjectAppStructure.Core.AppLock
 {
+    [Flags]
+    public enum AppInputLockConfigure
+    {
+        None = 0,
+        ShowPreloader = 1 << 0,
+    }
+    
+    public struct AppInputLockMessage
+    {
+        public readonly AppInputLockConfigure ConfigureFlags;
+        
+        public AppInputLockMessage(AppInputLockConfigure configureFlags)
+        {
+            ConfigureFlags = configureFlags;
+        }
+    }
+    
     public static class AppLock
     {
         public static void AppSyncLockTime(float time, Action callback = null, ushort lockFlag = 0, AppInputLockMessage lockMessage = default)
         {
             if (lockMessage.ConfigureFlags == AppInputLockConfigure.None)
                 lockMessage = new AppInputLockMessage(AppInputLockConfigure.ShowPreloader);
-            AppController.AppInputLocker.Enable(lockMessage, lockFlag);
+            G.Lock.Enable(lockMessage, lockFlag);
             try
             {
-                CoroutineParent.InvokeAfterSecondsWithCanceling(AppController.AppInputLocker, time, () =>
+                CoroutineParent.InvokeAfterSecondsWithCanceling(G.Lock, time, () =>
                 {
-                    AppController.AppInputLocker.Disable(lockFlag);
+                    G.Lock.Disable(lockFlag);
                     callback?.Invoke();
                 });
             }
             catch (Exception e)
             {
-                AppController.AppInputLocker.Disable(lockFlag);
+                G.Lock.Disable(lockFlag);
                 Debug.LogException(e);
             }
         }
         
-        public static async void AppAsyncLockAction(Func<Task> awaitFunc, Action callback = null, ushort lockFlag = 0, AppInputLockMessage lockMessage = default)
+        public static async Task AppAsyncLockAction(Func<Task> awaitFunc, Action callback = null, ushort lockFlag = 0, AppInputLockMessage lockMessage = default)
         {
             if (lockMessage.ConfigureFlags == AppInputLockConfigure.None)
                 lockMessage = new AppInputLockMessage(AppInputLockConfigure.ShowPreloader);
-            AppController.AppInputLocker.Enable(lockMessage, lockFlag);
+            G.Lock.Enable(lockMessage, lockFlag);
             try
             {
                 await awaitFunc();
@@ -43,7 +60,7 @@ namespace ProjectAppStructure.Core
                 Debug.LogException(e);
             }
 
-            AppController.AppInputLocker.Disable(lockFlag);
+            G.Lock.Disable(lockFlag);
             callback?.Invoke();
         }
         
@@ -51,7 +68,7 @@ namespace ProjectAppStructure.Core
         {
             if (lockMessage.ConfigureFlags == AppInputLockConfigure.None)
                 lockMessage = new AppInputLockMessage(AppInputLockConfigure.ShowPreloader);
-            AppController.AppInputLocker.Enable(lockMessage, lockFlag);
+            G.Lock.Enable(lockMessage, lockFlag);
             Task task = null;
             try
             {
@@ -69,7 +86,7 @@ namespace ProjectAppStructure.Core
                 }
             }
 
-            AppController.AppInputLocker.Disable(lockFlag);
+            G.Lock.Disable(lockFlag);
             callback?.Invoke();
         }
     }

@@ -3,5 +3,5 @@ using ProjectAppStructure.Core.Model;
 
 namespace ProjectAppStructure.Core.AppRootCore
 {
-    public class AppPopupViewRoot : AppMainViewsRoot<AppPopup, AppModelRoot, AppCoreConfig> { }
+    public class AppPopupViewRoot : AppMainViewsRoot<string, AppModelRoot> { }
 }
